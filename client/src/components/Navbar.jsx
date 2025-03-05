@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Image } from "./Image";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -6,7 +7,7 @@ export const Navbar = () => {
   return (
     <nav className="w-full h-16 md:h-20 flex items-center justify-between">
       <div className="flex items-center gap-4 text-2xl font-bold">
-        <img src="/logo.png" alt="logo" className="w-8 h-8" />
+        <Image src="logo.png" alt="logo" w={32} h={32} />
         <span>BlogSphere</span>
       </div>
 
