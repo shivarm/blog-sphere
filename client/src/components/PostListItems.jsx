@@ -7,7 +7,7 @@ export const PostListItems = () => {
     <div className="flex flex-col xl:flex-row gap-8">
       {/* image */}
       <div className="md:hidden xl:block xl:w-1/3">
-        <Image src="postImg.jpeg" className="rounded-2xl object-cover" />
+        <Image src="postImg.jpeg" className="rounded-2xl object-cover" w="735" />
       </div>
       {/* details */}
       <div className="flex flex-col gap-4 xl:w-2/3">
@@ -15,7 +15,7 @@ export const PostListItems = () => {
           Lorem ipsum dolor sit, amet consectetur adipisicing elit.
         </Link>
 
-        <div className="flex items-center gap-2 text-gray-400">
+        <div className="flex items-center gap-2 text-gray-700 font-serif">
           <span className="">Written by</span>
           <Link className="text-blue-800">Shivam</Link>
           <span className="">On</span>

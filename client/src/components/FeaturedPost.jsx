@@ -7,7 +7,11 @@ export const FeaturedPost = () => {
     <section className="mt-6 flex flex-col gap-8 lg:flex-row ">
       <div className="w-full lg:w-1/2 flex flex-col gap-4">
         {/* Image */}
-        <Image src="featured1.jpeg" className="rounded-3xl object-cover" />
+        <Image
+          src="featured1.jpeg"
+          className="rounded-3xl object-cover"
+          w="895"
+        />
         {/* details */}
         <div className="flex items-center gap-3">
           <h1 className="font-semibold lg:text-lg">01.</h1>
@@ -25,11 +29,14 @@ export const FeaturedPost = () => {
       {/* rightside-items */}
       <div className="w-full lg:w-1/2 flex flex-col gap-4">
         <div className="lg:h-1/3 flex justify-between gap-4">
-          {/* Image=2 */}
-          <Image
-            src="featured2.jpeg"
-            className="rounded-3xl object-cover w-1/3 aspect-video"
-          />
+          <div className="w-1/3 aspect-video">
+            {/* Image=2 */}
+            <Image 
+            src="featured2.jpeg" 
+            className="rounded-3xl object-cover  w-full h-full"
+            w="298"
+            />
+          </div>
           {/* details */}
           <div className="w-2/3">
             <div className="flex items-center gap-4">
@@ -47,10 +54,13 @@ export const FeaturedPost = () => {
         </div>
         {/* Image=3 */}
         <div className="lg:h-1/3 flex justify-between gap-4">
-          <Image
-            src="featured3.jpeg"
-            className="rounded-3xl object-cover w-1/3"
-          />
+        <div className="w-1/3 aspect-video">
+            <Image 
+            src="featured3.jpeg" 
+            className="rounded-3xl object-cover  w-full h-full"
+            w="298"
+            />
+          </div>
           {/* details */}
           <div className="w-2/3">
             <div className="flex items-center gap-4">
@@ -68,10 +78,13 @@ export const FeaturedPost = () => {
         </div>
         {/* Image=4 */}
         <div className="lg:h-1/3 flex justify-between gap-4">
-          <Image
-            src="featured4.jpeg"
-            className="rounded-3xl object-cover w-1/3"
-          />
+        <div className="w-1/3 aspect-video">
+            <Image 
+            src="featured4.jpeg" 
+            className="rounded-3xl object-cover  w-full h-full"
+            w="298"
+            />
+          </div>
           {/* details */}
           <div className="w-2/3">
             <div className="flex items-center gap-4">
