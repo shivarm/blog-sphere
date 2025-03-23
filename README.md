@@ -13,6 +13,23 @@ A web application that allows users to create, read, update, and delete blog pos
 
 ## Run Locally
 
+### server
+
+Install dependencies:
+
+```bash
+cd server
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev or node --run start
+```
+
+### client
+
 Install dependencies:
 
 ```bash
