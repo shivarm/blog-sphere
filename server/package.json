@@ -14,7 +14,9 @@
   "license": "MIT",
   "description": "api for blog app",
   "dependencies": {
+    "body-parser": "^2.1.0",
     "express": "^5.0.1",
-    "mongoose": "^8.12.2"
+    "mongoose": "^8.12.2",
+    "svix": "^1.62.0"
   }
 }

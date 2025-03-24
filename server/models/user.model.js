@@ -4,6 +4,12 @@ import mongoose from "mongoose";
 const userSchema = new Schema(
   {
     
+    clerkUserId: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    
     username: {
       type: String,
       require: true,

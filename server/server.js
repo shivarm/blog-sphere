@@ -2,11 +2,14 @@ import express from "express";
 
 import connectDB from "./db/db.js";
 import postRoutes from "./routes/post.route.js";
+import clerkRoutes from "./routes/webhook.route.js"
 
 const app = express();
-app.use(express.json());
-
 const PORT = process.env.PORT;
+
+app.use("/webhooks", clerkRoutes);
+
+app.use(express.json());
 
 app.use("/api/posts", postRoutes);
 
