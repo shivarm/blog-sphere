@@ -4,8 +4,12 @@ import connectDB from "./db/db.js";
 import postRoutes from "./routes/post.route.js";
 import clerkRoutes from "./routes/webhook.route.js"
 
+import { clerkMiddleware } from '@clerk/express'
+
 const app = express();
 const PORT = process.env.PORT;
+
+app.use(clerkMiddleware())
 
 app.use("/webhooks", clerkRoutes);
 

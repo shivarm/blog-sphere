@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Image } from "./Image";
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/clerk-react";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  
+  //Todo: for testing bearer token, remove it latter
+  const { getToken } = useAuth();
+
+  useEffect(() =>{
+    getToken().then((token) => console.log(token)
+    )
+  },[])
 
   return (
     <nav className="w-full h-16 md:h-20 flex items-center justify-between">
