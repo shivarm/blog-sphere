@@ -8,42 +8,38 @@ const postSchema = new Schema(
       ref: "User",
       required: true,
     },
-
     img: {
       type: String,
     },
-
     title: {
       type: String,
-      require: true,
+      required: true, 
     },
-
     slug: {
       type: String,
-      require: true,
+      required: true, 
       unique: true,
     },
-
     desc: {
       type: String,
     },
-
+    category: {
+      type: String,
+      default: "general",
+    },
     content: {
       type: String,
-      require: true,
+      required: true, 
     },
-
     isFeatured: {
       type: Boolean,
       default: false,
     },
-
     visit: {
       type: Number,
       default: 0,
     },
   },
-
   { timestamps: true }
 );
 
