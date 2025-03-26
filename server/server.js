@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors"
 
 import connectDB from "./db/db.js";
 import postRoutes from "./routes/post.route.js";
@@ -14,10 +15,15 @@ app.use(clerkMiddleware())
 app.use("/webhooks", clerkRoutes);
 
 app.use(express.json());
+app.use(cors({
+  origin: process.env.ORIGIN
+}));
 
 app.use("/api/posts", postRoutes);
 
 app.use((error, req, res, next) => {
+  console.log(error);
+  
   res.status(error.status || 500);
   res.json({
     message: error.message || "Something went wrong",
