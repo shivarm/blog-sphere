@@ -1,19 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { useQuill } from "react-quilljs";
 import { useMutation } from "@tanstack/react-query";
 import { createPost } from "../apis/apiClient";
 import { toast } from "react-toastify";
+import { IKContext, IKUpload } from "imagekitio-react";
+import { authenticator } from "../apis/apiClient";
 import "quill/dist/quill.snow.css";
 
 const Write = () => {
-  const { quill, quillRef } = useQuill({ placeholder: "123" });
+  const { quill, quillRef } = useQuill({
+    placeholder: "123",
+    modules: {
+      toolbar: [
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+      ],
+    },
+  });
   const [content, setContent] = useState("");
+  const [cover, setCover] = useState("");
+  const [progress, setProgress] = useState(0);
+
+  const ref = useRef(null);
 
   const navigate = useNavigate();
 
-  const { isLoading, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
   const { getToken } = useAuth();
 
   const mutation = useMutation({
@@ -39,6 +54,7 @@ const Write = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const newPost = {
+      img: cover.filePath || "",
       title: formData.get("title"),
       category: formData.get("category"),
       desc: formData.get("desc"),
@@ -47,17 +63,50 @@ const Write = () => {
     mutation.mutate(newPost);
   };
 
-  if (isLoading && !isSignedIn) {
-    return <div>You should login</div>;
+  const onError = () => {
+    toast.error("Image upload fail!");
+  };
+  const onSuccess = (res) => {
+    setCover(res);
+    toast.success("Image upload success");
+  };
+
+  const onUploadProgress = (progress) => {
+    setProgress(Math.round((progress.loaded / progress.total) * 100));
+  };
+
+  if (!isLoaded) {
+    return <div className="">Loading...</div>;
+  }
+
+  if (isLoaded && !isSignedIn) {
+    return <div className="">You should login!</div>;
   }
 
   return (
     <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex flex-col gap-6">
       <h1 className="text-xl font-light">Create New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
-        <button className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white ">
+        <button
+          onClick={() => ref.current.click()}
+          className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white "
+        >
           Add a cover image
         </button>
+        <IKContext
+          publicKey={import.meta.env.VITE_IK_PUBLIC}
+          urlEndpoint={import.meta.env.VITE_IK_URL}
+          authenticator={authenticator}
+        >
+          <IKUpload
+            useUniqueFileName={true}
+            onError={onError}
+            onSuccess={onSuccess}
+            onUploadProgress={onUploadProgress}
+            className="hidden"
+            ref={ref}
+          />
+        </IKContext>
         <input
           type="text"
           placeholder="My Awesome Story"
@@ -80,14 +129,15 @@ const Write = () => {
           placeholder="A short description"
           className="p-1 rounded-xl outline-none"
         />
+        {/* Quill Editor */}
         <div ref={quillRef} className="flex-1 bg-slate-100" />
         <button
-          disabled={mutation.isPending}
+          disabled={mutation.isPending || (0 < progress && progress < 100)}
           className="bg-blue-800 w-max px-4 py-2 text-white font-medium rounded-full disabled:bg-blue-500 disabled:cursor-not-allowed"
         >
           {mutation.isPending ? "Loading..." : "Send"}
         </button>
-        {mutation.isError && <span>{mutation.error.message}</span>}
+        {"Progress " + progress}
       </form>
     </div>
   );
