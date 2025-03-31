@@ -2,33 +2,36 @@ import React from "react";
 import { Image } from "./Image";
 import { Link } from "react-router-dom";
 
-export const PostListItems = () => {
+export const PostListItems = ({ post }) => {
+  const formattedDate = new Date(post.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <div className="flex flex-col xl:flex-row gap-8">
+    <div className="flex flex-col xl:flex-row gap-12 mb-8">
       {/* image */}
-      <div className="md:hidden xl:block xl:w-1/3">
-        <Image src="postImg.jpeg" className="rounded-2xl object-cover" w="735" />
-      </div>
+      {post.img && (
+        <div className="md:hidden xl:block xl:w-1/3">
+          <Image src={post.img} className="rounded-2xl object-cover" w="735" />
+        </div>
+      )}
       {/* details */}
       <div className="flex flex-col gap-4 xl:w-2/3">
-        <Link to="/test" className="text-4xl font-semibold">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        <Link to={`/${post.slug}`} className="text-4xl font-semibold">
+          {post.title}
         </Link>
 
         <div className="flex items-center gap-2 text-gray-700 font-serif">
           <span className="">Written by</span>
-          <Link className="text-blue-800">Shivam</Link>
+          <Link className="text-blue-800">{post.user.username}</Link>
           <span className="">On</span>
-          <Link className="text-blue-800">Web Desing</Link>
-          <span>2 days ago</span>
+          <Link className="text-blue-800">{post.category}</Link>
+          <span>{formattedDate}</span>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima itaque
-          labore tenetur animi quia corrupti doloribus repudiandae fuga quaerat
-          nisi repellat expedita placeat, vitae facere libero. Officiis, illum
-          quis! Nam.
-        </p>
-        <Link to="/test" className="text-blue-700 underline text-sm">
+        <p>{post.desc}</p>
+        <Link to={`/${post.slug}`} className="text-blue-700 underline text-sm">
           Read More
         </Link>
       </div>

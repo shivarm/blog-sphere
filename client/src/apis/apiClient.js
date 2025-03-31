@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const fetchPosts = async () => {
+export const fetchPosts = async (pageParams) => {
   try {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, {
+      params: { page: pageParams, limit: 2},
+    });
     return res.data;
   } catch (error) {
     console.error("Error creating post:", error.response.data);

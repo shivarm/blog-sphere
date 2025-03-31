@@ -1,26 +1,46 @@
 import React from "react";
 import { PostListItems } from "./PostListItems";
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchPosts } from "../apis/apiClient";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export const PostList = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () => fetchPosts(),
-       
-  })
-  if (isPending) return 'Loading...'
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: ({ pageParams = 1 }) => fetchPosts(pageParams),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.nextPage : undefined,
+  });
+  console.log(data);
 
-  if (error) return 'An error has occurred: ' + error.message
-  
+  if (isFetching) return "Loading...";
+
+  if (error) return "Something went wrong!";
+
+  const allPost = data?.pages?.flatMap((page) => page.posts) || [];
+
   return (
-    <div className="flex flex-col gap-12 mb-8">
-      <PostListItems />
-      <PostListItems />
-      <PostListItems />
-      <PostListItems />
-      <PostListItems />
-      <PostListItems />
-    </div>
+    <InfiniteScroll
+      dataLength={allPost.length}
+      next={fetchNextPage}
+      hasMore={!!hasNextPage}
+      loader={<h4>Loading more posts...</h4>}
+      endMessage={
+        <p>
+          <b>All post loaded!</b>
+        </p>
+      }
+    >
+      {allPost.map((post) => (
+        <PostListItems key={post._id} post={post} />
+      ))}
+    </InfiniteScroll>
   );
 };
