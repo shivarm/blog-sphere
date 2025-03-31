@@ -3,25 +3,41 @@ import axios from "axios";
 export const fetchPosts = async (pageParams) => {
   try {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, {
-      params: { page: pageParams, limit: 2},
+      params: { page: pageParams, limit: 2 },
     });
     return res.data;
   } catch (error) {
-    console.error("Error creating post:", error.response.data);
+    console.error("Error while fetching  posts:", error.response.data);
+    throw error;
+  }
+};
+
+export const fetchPost = async (slug) => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/posts/${slug}`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error while fetching single post:", error.response.data);
     throw error;
   }
 };
 
 export const authenticator = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts/upload-auth`);
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/posts/upload-auth`
+    );
 
     // Validate the response data
     const { signature, expire, token } = response.data;
 
     if (!signature || !expire || !token) {
       console.error("Invalid response format:", response.data);
-      throw new Error("Authentication response is missing required fields (signature, expire, token).");
+      throw new Error(
+        "Authentication response is missing required fields (signature, expire, token)."
+      );
     }
 
     // Return the parsed data
@@ -35,7 +51,9 @@ export const authenticator = async () => {
         error.response.data
       );
       throw new Error(
-        `Request failed with status ${error.response.status}: ${error.response.data.message || error.response.data}`
+        `Request failed with status ${error.response.status}: ${
+          error.response.data.message || error.response.data
+        }`
       );
     } else if (error.request) {
       // Request was made but no response received

@@ -18,7 +18,8 @@ export const getPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
   const { slug } = req.params.slug;
-  const post = await Post.findOne(slug);
+  const post = await Post.findOne(slug)
+  .populate("user", "username img")
   res.status(200).json(post);
 };
 
@@ -45,7 +46,7 @@ export const createPost = async (req, res) => {
     existingPost = await Post.findOne({ slug });
     counter++;
   }
-  const newPost = new Post({ user: user._id, slug, ...req.body });
+  const newPost = new Post({ user: user._id, slug, ...req.body, content: req.body.content });
   const post = await newPost.save();
   res.status(201).json(post);
 };

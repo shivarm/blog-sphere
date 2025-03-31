@@ -1,39 +1,64 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Image } from "../components/Image";
 import { PostMenuAction } from "../components/PostMenuAction";
 import { Search } from "../components/Search";
 import { Comments } from "../components/Comments";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPost } from "../apis/apiClient";
 
 const SinglePostPage = () => {
+  const { slug } = useParams();
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: () => fetchPost(slug),
+  });
+  console.log(data);
+  // Handle loading state
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  // Handle error state
+  if (error) {
+    return <div>Something went wrong: {error.message}</div>;
+  }
+  if (!data) return "Post not found!";
+  // Format the date
+  const formattedDate = new Date(data.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <header className="flex flex-col gap-8">
       {/* details */}
       <div className="flex gap-8">
         <div className="lg:w-3/5 flex flex-col gap-8">
           <h1 className="text:xl md:text-3xl xl:text-5xl font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             {data.title}
           </h1>
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span className="">Written by</span>
-            <Link className="text-blue-800">Shivam</Link>
+            <Link className="text-blue-800">{data.user.username}</Link>
             <span className="">On</span>
-            <Link className="text-blue-800">Web Desing</Link>
+            <Link className="text-blue-800">{data.category}</Link>
+            <span>{formattedDate}</span>
           </div>
           <p className="text-gray-500 font-medium">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci
-            minus, illo cum soluta dolorum obcaecati aliquam dolore sit, a
-            voluptates accusantium, magni quibusdam. Quos asperiores nemo fugit
-            omnis voluptates quidem.
+            {data.desc}
           </p>
         </div>
-        <div className="hidden lg:block w-2/5">
+        {data.img && <div className="hidden lg:block w-2/5">
           <Image
-            src="postImg.jpeg"
+            src={data.img}
             w="600"
             className="rounded-2xl object-cover"
-          />
+          /> 
         </div>
+        }
       </div>
       {/* content */}
       <div className="flex flex-col md:flex-row gap-12">
@@ -92,13 +117,15 @@ const SinglePostPage = () => {
           <h1 className=" mb-4 text-sm font-medium">Author</h1>
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-5">
-              <Image
-                src="userImg.jpeg"
-                className="w-12 h-12 rounded-full object-cover"
-                w="48"
-                h="48"
-              />
-              <Link className="text-blue-800">John Doe</Link>
+            {data.user.img && (
+                <Image
+                  src={data.user.img}
+                  className="w-12 h-12 rounded-full object-cover"
+                  w="48"
+                  h="48"
+                />
+              )}
+              <Link className="text-blue-800">{data.user.username}</Link>
             </div>
             <p className="text-sm text-gray-500">
               Lorem ipsum dolor sit amet consectetur adipisicing elit lo{" "}

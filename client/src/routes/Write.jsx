@@ -45,7 +45,7 @@ const Write = () => {
   useEffect(() => {
     if (quill) {
       quill.on("text-change", () => {
-        setContent(quill.root.innerHTML);
+        setContent(quill.getText());
       });
     }
   }, [quill]);
