@@ -84,3 +84,32 @@ export const createPost = async (newPost, token) => {
     throw error;
   }
 };
+
+export const fetchComment = async (postId) => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/comments/${postId}`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching comment:", error.response.data);
+    throw error;
+  }
+};
+export const addComment = async (postId, newComment, token) => {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/comments/${postId}`,
+      newComment,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error creating new comment:", error.response.data);
+    throw error;
+  }
+};

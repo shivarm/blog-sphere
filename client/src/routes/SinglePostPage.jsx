@@ -14,17 +14,16 @@ const SinglePostPage = () => {
     queryKey: ["post", slug],
     queryFn: () => fetchPost(slug),
   });
-  console.log(data);
-  // Handle loading state
+  
   if (isPending) {
     return <div>Loading...</div>;
   }
 
-  // Handle error state
   if (error) {
     return <div>Something went wrong: {error.message}</div>;
   }
   if (!data) return "Post not found!";
+  
   // Format the date
   const formattedDate = new Date(data.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -168,7 +167,7 @@ const SinglePostPage = () => {
           <Search />
         </div>
       </div>
-      <Comments />
+      <Comments postId={data._id} />
     </header>
   );
 };
