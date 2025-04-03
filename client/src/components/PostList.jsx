@@ -18,7 +18,6 @@ export const PostList = () => {
     getNextPageParam: (lastPage) =>
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
-  console.log(data);
 
   if (isFetching) return "Loading...";
 

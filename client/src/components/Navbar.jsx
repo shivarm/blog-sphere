@@ -6,14 +6,6 @@ import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/clerk-react";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  
-  //Todo: for testing bearer token, remove it latter
-  const { getToken } = useAuth();
-
-  useEffect(() =>{
-    getToken().then((token) => console.log(token)
-    )
-  },[])
 
   return (
     <nav className="w-full h-16 md:h-20 flex items-center justify-between">
