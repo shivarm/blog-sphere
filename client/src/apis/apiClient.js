@@ -85,6 +85,23 @@ export const createPost = async (newPost, token) => {
   }
 };
 
+export const deletePost = async (postId, token) => {
+  try {
+    const res = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/posts/${postId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error deleting post:", error.response.data);
+    throw error;
+  }
+};
+
 export const fetchComment = async (postId) => {
   try {
     const res = await axios.get(
@@ -110,6 +127,44 @@ export const addComment = async (postId, newComment, token) => {
     return res.data;
   } catch (error) {
     console.error("Error creating new comment:", error.response.data);
+    throw error;
+  }
+};
+
+export const savedPost = async (token) => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/users/saved`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error(
+      "Error fetching saved post:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const savePost = async (postId, token) => {
+  try {
+    const res = await axios.patch(
+      `${import.meta.env.VITE_API_URL}/api/users/save`,
+      { userId: postId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error saving post:", error.response?.data || error.message);
     throw error;
   }
 };

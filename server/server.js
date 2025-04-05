@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors"
 
 import connectDB from "./db/db.js";
+import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js"
 import clerkRoutes from "./routes/webhook.route.js"
@@ -26,6 +27,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 
