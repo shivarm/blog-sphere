@@ -1,8 +1,14 @@
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || window.location.origin;
+
+if (!API_BASE_URL) {
+  throw new Error("API_BASE_URL is not defined. Please set VITE_API_URL in your environment.");
+}
+
 export const fetchPosts = async (pageParams) => {
   try {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/posts`, {
+    const res = await axios.get(`${API_BASE_URL}/api/posts`, {
       params: { page: pageParams, limit: 2 },
     });
     return res.data;
@@ -15,7 +21,7 @@ export const fetchPosts = async (pageParams) => {
 export const fetchPost = async (slug) => {
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/posts/${slug}`
+      `${API_BASE_URL}/api/posts/${slug}`
     );
     return res.data;
   } catch (error) {
@@ -27,7 +33,7 @@ export const fetchPost = async (slug) => {
 export const authenticator = async () => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/posts/upload-auth`
+      `${API_BASE_URL}/api/posts/upload-auth`
     );
 
     // Validate the response data
@@ -70,7 +76,7 @@ export const authenticator = async () => {
 export const createPost = async (newPost, token) => {
   try {
     const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/posts`,
+      `${API_BASE_URL}/api/posts`,
       newPost,
       {
         headers: {
@@ -88,7 +94,7 @@ export const createPost = async (newPost, token) => {
 export const deletePost = async (postId, token) => {
   try {
     const res = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/posts/${postId}`,
+      `${API_BASE_URL}/api/posts/${postId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,7 +111,7 @@ export const deletePost = async (postId, token) => {
 export const fetchComment = async (postId) => {
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/comments/${postId}`
+      `${API_BASE_URL}/api/comments/${postId}`
     );
     return res.data;
   } catch (error) {
@@ -116,7 +122,7 @@ export const fetchComment = async (postId) => {
 export const addComment = async (postId, newComment, token) => {
   try {
     const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/comments/${postId}`,
+      `${API_BASE_URL}/api/comments/${postId}`,
       newComment,
       {
         headers: {
@@ -134,7 +140,7 @@ export const addComment = async (postId, newComment, token) => {
 export const deleteComment = async (commentId, token) => {
   try {
     const res = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/comments/${commentId}`,
+      `${API_BASE_URL}/api/comments/${commentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -151,7 +157,7 @@ export const deleteComment = async (commentId, token) => {
 export const savedPost = async (token) => {
   try {
     const res = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/users/saved`,
+      `${API_BASE_URL}/api/users/saved`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -171,7 +177,7 @@ export const savedPost = async (token) => {
 export const savePost = async (postId, token) => {
   try {
     const res = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/api/users/save`,
+      `${API_BASE_URL}/api/users/save`,
       { userId: postId },
       {
         headers: {
