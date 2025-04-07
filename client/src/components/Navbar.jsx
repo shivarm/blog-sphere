@@ -25,7 +25,7 @@ export const Navbar = () => {
 
         {/* mobile link list */}
         <div
-          className={`bg-red-700 w-full h-screen flex flex-col items-center font-medium gap-8 justify-center absolute top-16 ${
+          className={`bg-gray-300 w-full h-screen flex flex-col items-center font-medium gap-8 justify-center absolute top-16 ${
             open ? "right-0" : "right-[100%]"
           }`}
         >
@@ -33,11 +33,16 @@ export const Navbar = () => {
           <Link to="/">Trending</Link>
           <Link to="/">Most Popular</Link>
           <Link to="/">About</Link>
-          <Link to="/">
-            <button className="bg-blue-800 px-3 text-white font-semibold  py-1 rounded-full">
-              Login 👋
-            </button>
-          </Link>
+          <SignedOut>
+            <Link to="/login">
+              <button className="bg-blue-800 px-3 text-white font-semibold py-1 rounded-full">
+                Login 👋
+              </button>
+            </Link>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
 
