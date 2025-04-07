@@ -46,7 +46,7 @@ export const Comments = ({ postId }) => {
   if (error) return <div>Something went wrong: {error.message}</div>;
 
   return (
-    <div className="flex flex-col gap-8 lg:w-3/5">
+    <div className="flex flex-col gap-8 lg:w-3/5 mb-12">
       <h1 className="text-xl text-gray-500 underline">Comments</h1>
       <form
         onSubmit={handleSubmit}

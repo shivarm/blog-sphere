@@ -131,6 +131,23 @@ export const addComment = async (postId, newComment, token) => {
   }
 };
 
+export const deleteComment = async (commentId, token) => {
+  try {
+    const res = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error deleting comment:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 export const savedPost = async (token) => {
   try {
     const res = await axios.get(
