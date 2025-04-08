@@ -1,25 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
-import { useQuill } from "react-quilljs";
+import "react-quill-new/dist/quill.snow.css";
+import ReactQuill from "react-quill-new";
 import { useMutation } from "@tanstack/react-query";
 import { createPost } from "../apis/apiClient";
 import { toast } from "react-toastify";
 import { IKContext, IKUpload } from "imagekitio-react";
 import { authenticator } from "../apis/apiClient";
-import "quill/dist/quill.snow.css";
 
 const Write = () => {
-  const { quill, quillRef } = useQuill({
-    placeholder: "123",
-    modules: {
-      toolbar: [
-        ["bold", "italic", "underline"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "image"],
-      ],
-    },
-  });
   const [content, setContent] = useState("");
   const [cover, setCover] = useState("");
   const [progress, setProgress] = useState(0);
@@ -41,14 +31,6 @@ const Write = () => {
       navigate(`/${res.slug}`);
     },
   });
-
-  useEffect(() => {
-    if (quill) {
-      quill.on("text-change", () => {
-        setContent(quill.getText());
-      });
-    }
-  }, [quill]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -129,8 +111,13 @@ const Write = () => {
           placeholder="A short description"
           className="p-1 rounded-xl outline-none"
         />
-        {/* Quill Editor */}
-        <div ref={quillRef} className="flex-1 bg-slate-100" />
+        <ReactQuill
+          theme="snow"
+          className="flex-1 rounded-xl bg-white shadow-md"
+          value={content}
+          onChange={setContent}
+          readOnly={0 < progress && progress < 100}
+        />
         <button
           disabled={mutation.isPending || (0 < progress && progress < 100)}
           className="bg-blue-800 w-max px-4 py-2 text-white font-medium rounded-full disabled:bg-blue-500 disabled:cursor-not-allowed"
