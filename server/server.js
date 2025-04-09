@@ -14,7 +14,7 @@ import { clerkMiddleware } from '@clerk/express'
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+ 
 app.use(cors({
   origin: process.env.ORIGIN
 }));
@@ -33,12 +33,7 @@ app.use(function(req, res, next) {
 app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
-app.use(express.static(path.resolve(__dirname, "../client/dist")));
-
-// Handle all other routes by serving the index.html file
-app.get('/{*file}', (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
-});
+ 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
