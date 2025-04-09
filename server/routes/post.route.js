@@ -10,7 +10,8 @@ import {
   uploadAuth,
 } from "../controllers/post.controller.js";
 
-router.get("/upload-auth", uploadAuth)
+router.get("/upload-auth", uploadAuth);
+
 router.get("/", getPosts);
 router.get("/:slug", getPost);
 router.post("/", createPost);

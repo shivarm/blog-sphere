@@ -13,7 +13,7 @@ export const PostList = () => {
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["posts"],
-    queryFn: ({ pageParams = 1 }) => fetchPosts(pageParams),
+    queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.hasMore ? lastPage.nextPage : undefined,

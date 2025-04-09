@@ -6,10 +6,10 @@ if (!API_BASE_URL) {
   throw new Error("API_BASE_URL is not defined. Please set VITE_API_URL in your environment.");
 }
 
-export const fetchPosts = async (pageParams) => {
+export const fetchPosts = async (pageParam) => {
   try {
     const res = await axios.get(`${API_BASE_URL}/api/posts`, {
-      params: { page: pageParams, limit: 2 },
+      params: { page: pageParam, limit: 2 },
     });
     return res.data;
   } catch (error) {

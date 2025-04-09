@@ -11,6 +11,7 @@ export const getPosts = async (req, res) => {
 
   const posts = await Post.find()
     .populate("user", "username")
+    .sort({ createdAt: -1 })
     .limit(limit)
     .skip((page - 1) * limit); // Skip documents for previous pages
 
@@ -20,8 +21,7 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPost = async (req, res) => {
-  const { slug } = req.params.slug;
-  const post = await Post.findOne(slug)
+  const post = await Post.findOne({ slug: req.params.slug })
   .populate("user", "username img")
   res.status(200).json(post);
 };
@@ -39,6 +39,11 @@ export const createPost = async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res.status(400).json({ message: "Title and content are required" });
+  }
+
   let slug = req.body.title.replace(/ /g, "-").toLowerCase();
 
   // Check if the slug already exists and generate a unique slug if necessary
@@ -49,9 +54,9 @@ export const createPost = async (req, res) => {
     existingPost = await Post.findOne({ slug });
     counter++;
   }
-  const newPost = new Post({ user: user._id, slug, ...req.body, content: req.body.content });
+  const newPost = new Post({ user: user._id, slug, ...req.body});
   const post = await newPost.save();
-  res.status(201).json(post);
+  res.status(201).json({ slug: post.slug });
 };
 
 export const updatePost = async (req, res) => {

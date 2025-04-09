@@ -22,7 +22,7 @@ const SinglePostPage = () => {
   if (error) {
     return <div>Something went wrong: {error.message}</div>;
   }
-  if (!data) return "Post not found!";
+  if (!data) return  <div>Post not found!</div>;
   
   // Format the date
   const formattedDate = new Date(data.createdAt).toLocaleDateString("en-US", {

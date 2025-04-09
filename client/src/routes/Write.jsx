@@ -70,6 +70,7 @@ const Write = () => {
       <h1 className="text-xl font-light">Create New Post</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1 mb-6">
         <button
+          type="button"
           onClick={() => ref.current.click()}
           className="w-max p-2 shadow-md rounded-xl text-sm text-gray-500 bg-white "
         >
