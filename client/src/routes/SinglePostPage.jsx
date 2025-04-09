@@ -61,56 +61,10 @@ const SinglePostPage = () => {
       </div>
       {/* content */}
       <div className="flex flex-col md:flex-row gap-12">
-        <div className="lg:text-lg flex flex-col gap-5 text-justify">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-            commodi amet voluptate corrupti nihil dolorum, odio magni doloremque
-            dolore ab, in omnis quaerat? Nemo, fuga voluptatem aspernatur ullam
-            doloremque consequuntur.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-            aperiam laborum ullam rerum quod pariatur labore tempore magnam
-            deleniti nemo? Est quod ratione minus sequi commodi eveniet rem
-            corrupti facilis?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-            commodi amet voluptate corrupti nihil dolorum, odio magni doloremque
-            dolore ab, in omnis quaerat? Nemo, fuga voluptatem aspernatur ullam
-            doloremque consequuntur.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-            aperiam laborum ullam rerum quod pariatur labore tempore magnam
-            deleniti nemo? Est quod ratione minus sequi commodi eveniet rem
-            corrupti facilis?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-            commodi amet voluptate corrupti nihil dolorum, odio magni doloremque
-            dolore ab, in omnis quaerat? Nemo, fuga voluptatem aspernatur ullam
-            doloremque consequuntur.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-            aperiam laborum ullam rerum quod pariatur labore tempore magnam
-            deleniti nemo? Est quod ratione minus sequi commodi eveniet rem
-            corrupti facilis?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-            commodi amet voluptate corrupti nihil dolorum, odio magni doloremque
-            dolore ab, in omnis quaerat? Nemo, fuga voluptatem aspernatur ullam
-            doloremque consequuntur.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-            aperiam laborum ullam rerum quod pariatur labore tempore magnam
-            deleniti nemo? Est quod ratione minus sequi commodi eveniet rem
-            corrupti facilis?
-          </p>
-        </div>
+      <div
+          className="lg:text-lg flex flex-col text-justify"
+          dangerouslySetInnerHTML={{ __html: data.content }}
+        />
         {/* menu */}
         <div className="px-4 h-max sticky top-8">
           <h1 className=" mb-4 text-sm font-medium">Author</h1>
